@@ -10,3 +10,6 @@ In order to run crawling follow steps below
 * Create folder named `dataset` in main repository folder.
 * Create file named `proxies.txt` in main repository folder.
 * Run with `python run Main.py`
+* When prompted for input link please paste your search result page link.
+
+Thank you :blush:
