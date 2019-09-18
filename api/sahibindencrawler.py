@@ -6,7 +6,8 @@ from .proxy import Proxy
 import time
 
 class SahibindenCrawler(object):
-    def __init__(self, headers, load_from_file=True):
+    def __init__(self, headers, load_from_file=True, override_pictures=False):
+        self.__override_pictures = override_pictures
         self.__headers = headers
         self.__proxy = Proxy()
 
@@ -57,6 +58,12 @@ class SahibindenCrawler(object):
         print(f"Product link {page}")
         cur_proxy = next(self.__proxy_gen)
         try:
+            folder = f"dataset/{hashlib.md5(page.strip().encode()).hexdigest()}"
+            if not os.path.isdir(folder):
+                os.mkdir(folder)
+            elif not self.__override_pictures:
+                print(f"Omitting {page.strip()}. Link result already exist")
+                return
             response = requests.get(page.strip(), headers=self.__headers, proxies={"http": cur_proxy, "https": cur_proxy} )
             try:
                 assert response.status_code == 200
